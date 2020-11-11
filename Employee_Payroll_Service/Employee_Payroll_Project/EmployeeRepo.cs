@@ -98,30 +98,41 @@ namespace Employee_Payroll_Project
         public bool AddEmployee(EmployeeModel model)
         {
             SqlConnection connection = ConnectionEstablishment();
+            SqlTransaction transaction = null;
+            
             try
             {
                 using (connection)
                 {
-                    SqlCommand command = new SqlCommand("SpAddEmployeeDetails", connection);
-                    command.CommandType = System.Data.CommandType.StoredProcedure;
-                    command.Parameters.AddWithValue("@EmployeeName", model.EmployeeName);
-                    command.Parameters.AddWithValue("@StartDate", DateTime.Now);
-                    command.Parameters.AddWithValue("@Gender", model.Gender);
-                    command.Parameters.AddWithValue("@PhoneNumber", model.PhoneNumber);
-                    command.Parameters.AddWithValue("@Address", model.Address);
-                    command.Parameters.AddWithValue("@Department", model.Department);
-                    command.Parameters.AddWithValue("@BasicPay", model.BasicPay);
-                    command.Parameters.AddWithValue("@TaxablePay", model.TaxablePay);
-                    command.Parameters.AddWithValue("@Tax", model.Tax);
-                    command.Parameters.AddWithValue("@NetPay", model.NetPay);
                     connection.Open();
-                    var rowsAffected = command.ExecuteNonQuery();
-                    if (rowsAffected> 0)
+                    transaction = connection.BeginTransaction();
+                    SqlCommand command = new SqlCommand("SpAddEmployeeDetails", connection,transaction);
+                    try
                     {
-                        Console.WriteLine(rowsAffected+" number of rows afffcted");
-                        return true;
+                        command.CommandType = System.Data.CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@EmployeeName", model.EmployeeName);
+                        command.Parameters.AddWithValue("@StartDate", DateTime.Now);
+                        command.Parameters.AddWithValue("@Gender", model.Gender);
+                        command.Parameters.AddWithValue("@PhoneNumber", model.PhoneNumber);
+                        command.Parameters.AddWithValue("@Address", model.Address);
+                        command.Parameters.AddWithValue("@Department", model.Department);
+                        command.Parameters.AddWithValue("@BasicPay", model.BasicPay);
+                        command.Parameters.AddWithValue("@TaxablePay", model.TaxablePay);
+                        command.Parameters.AddWithValue("@Tax", model.Tax);
+                        command.Parameters.AddWithValue("@NetPay", model.NetPay);
+                        var rowsAffected = command.ExecuteNonQuery();
+                        if (rowsAffected > 0)
+                        {
+                            Console.WriteLine(rowsAffected + " number of rows afffcted");
+                            return true;
+                        }
                     }
-                    return false;
+                    catch (Exception e)
+                        {
+                            Console.WriteLine(e.Message);
+                            transaction.Rollback();
+                        }
+                    transaction.Commit();
                 }
             }
             catch (Exception e)
@@ -356,7 +367,7 @@ namespace Employee_Payroll_Project
         }
         public void CountOfEmployeesGenderWise()
         {
-            SqlConnection connection = new SqlConnection(connectionString);
+            SqlConnection connection = ConnectionEstablishment();
             try
             {
                 using (connection)
