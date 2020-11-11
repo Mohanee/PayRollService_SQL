@@ -41,6 +41,13 @@ namespace Employee_Payroll_Project
             repo.RetrieveEmployeesWithParticularDateRange(Convert.ToDateTime("2015-12-September"), Convert.ToDateTime("2020-12-September"));
 
 
+            //UC6 Aggregate Functions
+            repo.AverageOfSalaryGenderWise();
+            repo.CountOfEmployeesGenderWise();
+            repo.MaximumSalaryGenderWise();
+            repo.MinimumSalaryGenderWise();
+            repo.SumOfSalaryGenderWise();
+
 
           
 

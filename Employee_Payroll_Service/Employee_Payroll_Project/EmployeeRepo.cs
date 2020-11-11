@@ -211,6 +211,181 @@ namespace Employee_Payroll_Project
                 System.Console.WriteLine(exception.Message);
             }
         }
+
+        //UC6 Aggregate Functions
+
+
+        /// <summary>
+        /// Sum of Salaries
+        /// </summary>
+        public void SumOfSalaryGenderWise()
+        {
+            SqlConnection connection = ConnectionEstablishment();
+            try
+            {
+                using (connection)
+                {
+                    string query = @"select gender, SUM(basic_pay) from employee_payroll group by gender";
+                    SqlCommand command = new SqlCommand(query, connection);
+                    connection.Open();
+                    SqlDataReader dr = command.ExecuteReader();
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            Console.Write(dr.GetString(0) + "\t");
+                            Console.Write(dr.GetDecimal(1));
+                            Console.WriteLine("\n");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No data found");
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
+        }
+
+        /// <summary>
+        /// Average salary for male and female
+        /// </summary>
+        public void AverageOfSalaryGenderWise()
+        {
+            SqlConnection connection = ConnectionEstablishment();
+            try
+            {
+                using (connection)
+                {
+                    string query = @"select gender, AVG(basic_pay) from employee_payroll group by gender";
+                    SqlCommand command = new SqlCommand(query, connection);
+                    connection.Open();
+                    SqlDataReader dr = command.ExecuteReader();
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            Console.Write(dr.GetString(0) + "\t");
+                            Console.Write(dr.GetDecimal(1));
+                            Console.WriteLine("\n");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No data found");
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
+        }
+
+        /// <summary>
+        /// Minimum salary for male and female
+        /// </summary>
+        public void MinimumSalaryGenderWise()
+        {
+            SqlConnection connection = ConnectionEstablishment();
+            try
+            {
+                using (connection)
+                {
+                    string query = @"select gender, MIN(basic_pay) from employee_payroll group by gender";
+                    SqlCommand command = new SqlCommand(query, connection);
+                    connection.Open();
+                    SqlDataReader dr = command.ExecuteReader();
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            Console.Write(dr.GetString(0) + "\t");
+                            Console.Write(dr.GetDecimal(1));
+                            Console.WriteLine("\n");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No data found");
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
+        }
+
+        /// <summary>
+        /// Maximum Salary fro Male and Female
+        /// </summary>
+        public void MaximumSalaryGenderWise()
+        {
+            SqlConnection connection = ConnectionEstablishment();
+            try
+            {
+                using (connection)
+                {
+                    string query = @"select gender, MAX(basic_pay) from employee_payroll group by gender";
+                    SqlCommand command = new SqlCommand(query, connection);
+                    connection.Open();
+                    SqlDataReader dr = command.ExecuteReader();
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            Console.Write(dr.GetString(0) + "\t");
+                            Console.Write(dr.GetDecimal(1));
+                            Console.WriteLine("\n");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No data found");
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
+        }
+        public void CountOfEmployeesGenderWise()
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            try
+            {
+                using (connection)
+                {
+                    string query = @"select gender, COUNT(gender) from employee_payroll group by gender";
+                    SqlCommand command = new SqlCommand(query, connection);
+                    connection.Open();
+                    SqlDataReader dr = command.ExecuteReader();
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            Console.Write(dr.GetString(0) + "\t");
+                            Console.Write(dr.GetInt32(1));
+                            Console.WriteLine("\n");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No data found");
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
+        }
+
     }
 
 }
