@@ -16,7 +16,7 @@ namespace Employee_Payroll_Project
             //UC1&2 Connect Database and Get all employee details
             repo.GetAllEmployee();
 
-            //UC3 Add new Employee Details
+            //UC8 Add new Employee Details
             EmployeeModel employee = new EmployeeModel();
             employee.EmployeeName = "Indal";
             employee.StartDate = employee.StartDate = Convert.ToDateTime("2020-11-03");
@@ -33,6 +33,9 @@ namespace Employee_Payroll_Project
 
             if (repo.AddEmployee(employee))
                 Console.WriteLine("Records added successfully");
+
+            //UC3 Update Salary
+            repo.UpdateSalary("Terissa", 50000);
 
 
           

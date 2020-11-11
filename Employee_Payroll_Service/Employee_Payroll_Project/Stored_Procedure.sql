@@ -6,7 +6,6 @@
 @Department varchar(255),
 @Gender char(1),
 @BasicPay float,
-@Deductions float,
 @TaxablePay float,
 @Tax float,
 @NetPay float,
@@ -16,6 +15,6 @@ as
 begin
 insert into employee_payroll values
 (
-@EmployeeName,@BasicPay,@StartDate,@Gender,@PhoneNumber,@Address,@Department,@Deductions,@TaxablePay,@Tax,@NetPay
+@EmployeeName,@BasicPay,@StartDate,@Gender,@PhoneNumber,@Address,@Department,@TaxablePay,@Tax,@NetPay
 )
 end

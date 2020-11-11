@@ -13,7 +13,7 @@ namespace Employee_Payroll_Project
         //Setting up connection
         public SqlConnection ConnectionEstablishment()
         {
-            string connectionString = @"Data Source=(LocalDB)\BLDBserver;Initial Catalog=Payroll_service;Integrated Security=True";
+            string connectionString = @"Data Source=(LocalDB)\BLDBserver;Initial Catalog=Payroll_Service;Integrated Security=True";
             SqlConnection connection = new SqlConnection(connectionString);
 
             return connection;
@@ -45,7 +45,7 @@ namespace Employee_Payroll_Project
             }
         }
 
-            //UC2
+        //UC2
             /// <summary>
             /// Method to retrieve all the Employee Details from the DB
             /// </summary>
@@ -94,7 +94,7 @@ namespace Employee_Payroll_Project
             }
         }
 
-
+        //UC8 Add Employee Details for a new employee
         public bool AddEmployee(EmployeeModel model)
         {
             SqlConnection connection = ConnectionEstablishment();
@@ -129,6 +129,43 @@ namespace Employee_Payroll_Project
                 Console.WriteLine(e.Message);
                 return false;
             }
+        }
+
+
+        /// <summary>
+        /// Update salary 
+        /// </summary>
+        /// <param name="name">Name of the person to update salary</param>
+        /// <param name="salary">New salary</param>
+        /// <returns></returns>
+        public bool UpdateSalary(string name, decimal salary)
+        {
+            SqlConnection connection = ConnectionEstablishment();
+            try
+            {
+                using (connection)
+                {
+                    string query = @"Update payroll_service_table set basic_pay = '" + salary + "' where name = '" + name + "'";
+                    SqlCommand command = new SqlCommand(query, connection);
+                    connection.Open();
+                    var result = command.ExecuteNonQuery();
+                    connection.Close();
+                    if (result != 0)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+            return false;
         }
 
     }
