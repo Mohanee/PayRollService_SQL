@@ -4,6 +4,9 @@ using System.Text;
 
 namespace Employee_Payroll_Project
 {
+    /// <summary>
+    /// Employee Modal Class
+    /// </summary>
     class EmployeeModel
     {
         public int EmployeeID { get; set; }
@@ -13,7 +16,6 @@ namespace Employee_Payroll_Project
         public string Department { get; set; }
         public string Gender { get; set; }
         public decimal BasicPay { get; set; }
-        public double Deductions { get; set; }
         public double TaxablePay { get; set; }
         public double Tax { get; set; }
         public double NetPay { get; set; }

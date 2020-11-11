@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 
 namespace Employee_Payroll_Project
@@ -8,24 +9,63 @@ namespace Employee_Payroll_Project
 
     class EmployeeRepo
     {
-        public static string connectionString = @"Data Source=(LocalDB)\BLDBserver;Initial Catalog=Payroll_service;Integrated Security=True";
-        SqlConnection connection = new SqlConnection(connectionString);
+
+        //Setting up connection
+        public SqlConnection ConnectionEstablishment()
+        {
+            string connectionString = @"Data Source=(LocalDB)\BLDBserver;Initial Catalog=Payroll_service;Integrated Security=True";
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            return connection;
+        }
+
+        /// <summary>
+        /// Check if connection is set up or not
+        /// </summary>
+        /// <returns>true if connection is set up</returns>
+        public bool CheckConnection()
+        {
+            SqlConnection connection= ConnectionEstablishment();
+            try
+            {
+                using (connection)
+                {
+                    connection.Open();
+                    Console.WriteLine("Connection is opened");
+                    Console.WriteLine("Connection good");
+                    connection.Close();
+                    Console.WriteLine("Connection is closed");
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
+        }
+
+            //UC2
+            /// <summary>
+            /// Method to retrieve all the Employee Details from the DB
+            /// </summary>
         public void GetAllEmployee()
         {
+            SqlConnection connection = ConnectionEstablishment();
             try
             {
                 EmployeeModel employeeModel = new EmployeeModel();
-                using (this.connection)
+                using (connection)
                 {
                     string query = @"Select * from payroll_service_table;";
-                    SqlCommand cmd = new SqlCommand(query, this.connection);
-                    this.connection.Open();
+                    SqlCommand cmd = new SqlCommand(query, connection);
+                    connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
                     if (dr.HasRows)
                     {
                         while (dr.Read())
                         {
-                            employeeModel.EmployeeID = dr.IsDBNull(1) ? dr.GetInt32(0) :"NA";
+                            employeeModel.EmployeeID = dr.GetInt32(0);
                             employeeModel.EmployeeName = dr.GetString(1);
                             employeeModel.StartDate = dr.GetDateTime(2);
                             employeeModel.Gender = dr.GetString(3);
@@ -38,7 +78,7 @@ namespace Employee_Payroll_Project
                             employeeModel.NetPay = dr.GetDouble(10);
 
                             System.Console.WriteLine(employeeModel.EmployeeName + "|" + employeeModel.BasicPay + "|" + employeeModel.StartDate + "|" + employeeModel.Gender + "|" + employeeModel.PhoneNumber + 
-                                "|" + employeeModel.Address + "|" + employeeModel.Department + "|" + employeeModel.Deductions + "|" + employeeModel.TaxablePay + "|" + employeeModel.Tax + "|" + employeeModel.NetPay);
+                                "|" + employeeModel.Address + "|" + employeeModel.Department +  "|" + employeeModel.TaxablePay + "|" + employeeModel.Tax + "|" + employeeModel.NetPay);
                             System.Console.WriteLine("\n");
                         }
                     }
@@ -54,13 +94,15 @@ namespace Employee_Payroll_Project
             }
         }
 
+
         public bool AddEmployee(EmployeeModel model)
         {
+            SqlConnection connection = ConnectionEstablishment();
             try
             {
-                using (this.connection)
+                using (connection)
                 {
-                    SqlCommand command = new SqlCommand("SpAddEmployeeDetails", this.connection);
+                    SqlCommand command = new SqlCommand("SpAddEmployeeDetails", connection);
                     command.CommandType = System.Data.CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@EmployeeName", model.EmployeeName);
                     command.Parameters.AddWithValue("@StartDate", DateTime.Now);
@@ -72,12 +114,11 @@ namespace Employee_Payroll_Project
                     command.Parameters.AddWithValue("@TaxablePay", model.TaxablePay);
                     command.Parameters.AddWithValue("@Tax", model.Tax);
                     command.Parameters.AddWithValue("@NetPay", model.NetPay);
-                    this.connection.Open();
-                    var result = command.ExecuteNonQuery();
-                    this.connection.Close();
-                    if (result != 0)
+                    connection.Open();
+                    var rowsAffected = command.ExecuteNonQuery();
+                    if (rowsAffected> 0)
                     {
-
+                        Console.WriteLine(rowsAffected+" number of rows afffcted");
                         return true;
                     }
                     return false;
@@ -86,12 +127,8 @@ namespace Employee_Payroll_Project
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                return false;
             }
-            finally
-            {
-                this.connection.Close();
-            }
-            return false;
         }
 
     }
