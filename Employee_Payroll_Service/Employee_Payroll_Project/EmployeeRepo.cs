@@ -7,7 +7,7 @@ using System.Text;
 namespace Employee_Payroll_Project
 {
 
-    class EmployeeRepo
+   public class EmployeeRepo
     {
 
         //Setting up connection

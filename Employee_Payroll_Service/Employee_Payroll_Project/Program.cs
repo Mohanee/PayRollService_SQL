@@ -35,7 +35,7 @@ namespace Employee_Payroll_Project
                 Console.WriteLine("Records added successfully");
 
             //UC3 Update Salary
-            repo.UpdateSalary("Terissa", 50000);
+            repo.UpdateSalary("Terissa",Convert.ToDecimal(50000));
 
 
           
