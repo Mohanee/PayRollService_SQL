@@ -1,5 +1,8 @@
 use Payroll_Service;
 
+alter table payroll_service_table drop column salary;
+select * from payroll_service_table;
+
 create table Department
 (
 	department_ID int not null primary key,
@@ -11,6 +14,7 @@ values
 (102,'Finance'),
 (103,'Logistics'),
 (104,'Operations');
+select * from Department;
 
 create table Employee
 (
@@ -32,6 +36,7 @@ insert into Employee(name,Address,Gender,StartDate) values
 ('Shriya','Chennai','Male','2013-07-19'),
 ('Riya','Bangalore','Female','2013-07-19'),
 ('Nikita','Bangalore','Female','2002-01-04');
+
 
 create table Payroll
 (
