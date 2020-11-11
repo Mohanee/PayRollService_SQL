@@ -37,6 +37,10 @@ namespace Employee_Payroll_Project
             //UC3 Update Salary
             repo.UpdateSalary("Terissa",Convert.ToDecimal(50000));
 
+            //UC5 Retrieve Employees belonging to a particular date range
+            repo.RetrieveEmployeesWithParticularDateRange(Convert.ToDateTime("2015-12-September"), Convert.ToDateTime("2020-12-September"));
+
+
 
           
 
