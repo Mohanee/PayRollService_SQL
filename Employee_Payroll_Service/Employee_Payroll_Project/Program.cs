@@ -95,10 +95,8 @@ namespace Employee_Payroll_Project
 
             repo.AddMultipleEmployees(employeeList);
 
-
-
-
-
+            //UC2 Sec4 AddMultiple Employees USING THREADS
+            repo.AddMultipleEmployeesUsingThreads(employeeList);
 
         }
     }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Employee_Payroll_Project
 {
@@ -397,6 +399,49 @@ namespace Employee_Payroll_Project
                 Console.WriteLine(exception.Message);
             }
         }
+
+        /// <summary>
+        /// Add Multiple Employees to database (WITHOUT THREADS)
+        /// </summary>
+        /// <param name="list">List of Employees</param>
+        /// <returns></returns>
+        public int AddMultipleEmployees(List<EmployeeModel> list)
+        {
+            int noOfEmployeesAdded = 0;
+            foreach (EmployeeModel employee in list)
+            {
+                noOfEmployeesAdded++;
+                AddEmployee(employee);
+            }
+            return noOfEmployeesAdded;
+        }
+
+        /// <summary>
+        /// Add Multiple Employees to database (USING THREADS)
+        /// </summary>
+        /// <param name="list">List of Employees</param>
+        /// <returns></returns>
+        public int AddMultipleEmployeesUsingThreads(List<EmployeeModel> list)
+        {
+            int noOfEmployeesAdded = 0;
+            list.ForEach(employee =>
+            {
+                noOfEmployeesAdded++;
+                AddEmployee(employee);
+                Task task = new Task(() =>
+                {
+                    AddEmployee(employee);
+                }
+                );
+                task.Start();
+            }
+            );
+            return noOfEmployeesAdded;
+        }
+
+
+
+       
 
     }
 

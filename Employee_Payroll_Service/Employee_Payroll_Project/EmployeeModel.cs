@@ -22,6 +22,7 @@ namespace Employee_Payroll_Project
         public DateTime StartDate { get; set; }
 
 
+        public List<EmployeeModel> employeeList = new List<EmployeeModel>();
 
     }
 
