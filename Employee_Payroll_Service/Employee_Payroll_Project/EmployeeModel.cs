@@ -7,7 +7,7 @@ namespace Employee_Payroll_Project
     /// <summary>
     /// Employee Modal Class
     /// </summary>
-    class EmployeeModel
+    public class EmployeeModel
     {
         public int EmployeeID { get; set; }
         public string EmployeeName { get; set; }
