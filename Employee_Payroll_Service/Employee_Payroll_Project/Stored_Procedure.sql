@@ -1,6 +1,6 @@
 ﻿create procedure SpAddEmployeeDetails
 (
-@EmployeeName varchar(255),
+@name varchar(255),
 @PhoneNumber varchar(255),
 @Address varchar(255),
 @Department varchar(255),
