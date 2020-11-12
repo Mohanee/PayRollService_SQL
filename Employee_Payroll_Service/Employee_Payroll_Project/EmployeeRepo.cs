@@ -57,7 +57,7 @@ namespace Employee_Payroll_Project
                 EmployeeModel employeeModel = new EmployeeModel();
                 using (connection)
                 {
-                    string query = @"Select * from payroll_service_table;";
+                    string query = @"Select id,name,start_date, gender, phoneNumber,address,department, basic_Pay, Taxable_Pay, Income_Tax, Net_Pay from ((employee e inner join Payroll p on e.Id = p.Id) inner join Department ed on e.Id = ed.EmployeeId);";
                     SqlCommand cmd = new SqlCommand(query, connection);
                     connection.Open();
                     SqlDataReader dr = cmd.ExecuteReader();
@@ -110,16 +110,16 @@ namespace Employee_Payroll_Project
                     try
                     {
                         command.CommandType = System.Data.CommandType.StoredProcedure;
-                        command.Parameters.AddWithValue("@EmployeeName", model.EmployeeName);
+                        command.Parameters.AddWithValue("@Name", model.EmployeeName);
                         command.Parameters.AddWithValue("@StartDate", DateTime.Now);
                         command.Parameters.AddWithValue("@Gender", model.Gender);
                         command.Parameters.AddWithValue("@PhoneNumber", model.PhoneNumber);
                         command.Parameters.AddWithValue("@Address", model.Address);
                         command.Parameters.AddWithValue("@Department", model.Department);
-                        command.Parameters.AddWithValue("@BasicPay", model.BasicPay);
-                        command.Parameters.AddWithValue("@TaxablePay", model.TaxablePay);
-                        command.Parameters.AddWithValue("@Tax", model.Tax);
-                        command.Parameters.AddWithValue("@NetPay", model.NetPay);
+                        command.Parameters.AddWithValue("@Basic_Pay", model.BasicPay);
+                        command.Parameters.AddWithValue("@Taxable_Pay", model.TaxablePay);
+                        command.Parameters.AddWithValue("@Income_Tax", model.Tax);
+                        command.Parameters.AddWithValue("@Net_Pay", model.NetPay);
                         var rowsAffected = command.ExecuteNonQuery();
                         if (rowsAffected > 0)
                         {
@@ -158,7 +158,7 @@ namespace Employee_Payroll_Project
             {
                 using (connection)
                 {
-                    string query = @"Update payroll_service_table set basic_pay = '" + salary + "' where name = '" + name + "'";
+                    string query = @"Update Payroll set basic_pay = '" + salary + "' where name = '" + name + "'";
                     SqlCommand command = new SqlCommand(query, connection);
                     connection.Open();
                     var result = command.ExecuteNonQuery();
@@ -189,7 +189,7 @@ namespace Employee_Payroll_Project
             {
                 using (connection)
                 {
-                    string query = @"select * from employee_payroll where start between '" + startDate + "'and '" + endDate + "';";
+                    string query = @"select * from Employee where start between '" + startDate + "'and '" + endDate + "';";
                     SqlCommand command = new SqlCommand(query, connection);
                     connection.Open();
                     SqlDataReader dr = command.ExecuteReader();
@@ -237,7 +237,7 @@ namespace Employee_Payroll_Project
             {
                 using (connection)
                 {
-                    string query = @"select gender, SUM(basic_pay) from employee_payroll group by gender";
+                    string query = @"select gender, SUM(basic_pay) from employee group by gender";
                     SqlCommand command = new SqlCommand(query, connection);
                     connection.Open();
                     SqlDataReader dr = command.ExecuteReader();
@@ -272,7 +272,7 @@ namespace Employee_Payroll_Project
             {
                 using (connection)
                 {
-                    string query = @"select gender, AVG(basic_pay) from employee_payroll group by gender";
+                    string query = @"select gender, AVG(basic_pay) from employee group by gender";
                     SqlCommand command = new SqlCommand(query, connection);
                     connection.Open();
                     SqlDataReader dr = command.ExecuteReader();
@@ -307,7 +307,7 @@ namespace Employee_Payroll_Project
             {
                 using (connection)
                 {
-                    string query = @"select gender, MIN(basic_pay) from employee_payroll group by gender";
+                    string query = @"select gender, MIN(basic_pay) from employee group by gender";
                     SqlCommand command = new SqlCommand(query, connection);
                     connection.Open();
                     SqlDataReader dr = command.ExecuteReader();
@@ -342,7 +342,7 @@ namespace Employee_Payroll_Project
             {
                 using (connection)
                 {
-                    string query = @"select gender, MAX(basic_pay) from employee_payroll group by gender";
+                    string query = @"select gender, MAX(basic_pay) from employee group by gender";
                     SqlCommand command = new SqlCommand(query, connection);
                     connection.Open();
                     SqlDataReader dr = command.ExecuteReader();
@@ -373,7 +373,7 @@ namespace Employee_Payroll_Project
             {
                 using (connection)
                 {
-                    string query = @"select gender, COUNT(gender) from employee_payroll group by gender";
+                    string query = @"select gender, COUNT(gender) from employee group by gender";
                     SqlCommand command = new SqlCommand(query, connection);
                     connection.Open();
                     SqlDataReader dr = command.ExecuteReader();
